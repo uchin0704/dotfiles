@@ -18,15 +18,15 @@ set hlfind
 " -----------------------------------------------------------------------------
 
 hi -a StatusLine font-weight: normal;
-hi -a StatusLineNormal color:#C5C8C6 !important; background:#282A2E !important;
+hi -a StatusLineNormal color:#C5C8C6 !important; background:#202020 !important;
 
 "}}}
 " Font {{{
 " -----------------------------------------------------------------------------
 
-hi FontCode -a font-family: Cousine important; font-size: 9pt !important;
-hi FontFixed -a font-family: Cousine !important; font-size: 9pt !important;
-hi Normal -a font-family: Cousine !important; font-size: 9pt !important;
+hi FontCode -a font-family: Terminus important; font-size: 9pt !important;
+hi FontFixed -a font-family: Terminus !important; font-size: 9pt !important;
+hi Normal -a font-family: Terminus !important; font-size: 9pt !important;
 
 "}}}
 " Mappings {{{
@@ -63,21 +63,21 @@ map -builtin <F3> :styletoggle<Space>-name<Space>hybrid<CR>
 style -name hybrid http://*,https://*,file://*,about:blank <<EOM
   * {
     color: #C5C8C6 !important;
-    background: #1D1F21 !important;
-    border-color: #282A2E !important;
+    background: #151515 !important;
+    border-color: #202020 !important;
   }
   a, a * {
     color: #81A2BE !important;
     text-decoration: none !important;
   }
   a:hover, a:hover * {
-    color: #F0C674 !important;
+    color: #f4bf75 !important;
   }
   a:visited, a:visited * {
     color: #b294bb !important;
   }
   a:visited:hover, a:visited:hover * {
-    color: #de935f !important;
+    color: #d28445 !important;
   }
 EOM
 styledisable -name=hybrid
@@ -85,7 +85,6 @@ styledisable -name=hybrid
 "}}}
 " Style: Minimalistic Tabs {{{
 " -----------------------------------------------------------------------------
-" Based on http://userstyles.org/styles/99560/square-tab-for-firefox-australis
 
 style -name minitabs chrome://* <<EOM
 #TabsToolbar toolbarbutton {
@@ -93,22 +92,22 @@ style -name minitabs chrome://* <<EOM
 }
 
 #TabsToolbar .tabbrowser-tabs {
-    background: #282A2E !important;
+    background: #202020 !important;
     min-height: 18px !important;
     padding-bottom: 2px;
 }
 
 #TabsToolbar .tabbrowser-tab {
-    background: #282A2E !important;
+    background: #202020 !important;
     border: none !important;
-    color: #707880 !important;
-    font: 9pt Cousine !important;
+    color: #505050 !important;
+    font: 9pt Terminus !important;
     margin: 0 !important;
 }
 
 #TabsToolbar .tabbrowser-tab[selected] {
-    background: #282A2E !important;
-    color: #F0C674 !important;
+    background: #202020 !important;
+    color: #F4BF75 !important;
 }
 
 #TabsToolbar .tabbrowser-tab:not([pinned]) {
@@ -122,8 +121,8 @@ style -name minitabs chrome://* <<EOM
 }
 
 #TabsToolbar .tabbrowser-tab:hover:not([selected]) {
-    background: #F0C674 !important;
-    color: #282A2E !important;
+    background: #F4BF75 !important;
+    color: #202020 !important;
 
 }
 
@@ -146,7 +145,6 @@ style -name minitabs chrome://* <<EOM
 #TabsToolbar .tabbrowser-tab:before {
     display: none !important;
 }
-
 EOM
 
 "}}}

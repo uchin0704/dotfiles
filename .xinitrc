@@ -26,9 +26,10 @@ xset fp default
 [[ -d $HOME/.local/share/fonts ]] && xset +fp $HOME/.local/share/fonts
 xset fp rehash
 
-# turn monitor off after 60min
-xset s off
-xset dpms 3600 3600 3600
+# Turn off monitor after 5min idle
+#xset s off
+#xset dpms 300 300 300
+/usr/bin/xscreensaver -no-splash &
 
 # increase mouse acceleration
 xset m 3
@@ -39,5 +40,14 @@ wmname LG3D
 # set background
 sh $HOME/.fehbg
 
-# start WM
-exec $HOME/bin/dwm-start
+
+# Thinkpad OSD for mute and brightness
+[[ -z "$(pidof tpb)" ]] && \
+    [[ -x /usr/bin/tpb ]] && \
+    [[ -w /dev/nvram ]] && \
+    [[ -r /dev/nvram ]] && \
+    /usr/bin/tpb -d
+
+# Run WM
+conky | while read -r; do xsetroot -name "$REPLY"; done &
+exec dwm

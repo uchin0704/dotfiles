@@ -6,4 +6,4 @@ total_run_times 0
 use_spacer none
 
 TEXT
-  ${if_empty ${battery_time BAT0}}${battery BAT0}${else}${battery BAT0}  ${battery_time BAT0}${endif}   ${wireless_essid wls1}${if_match "${wireless_essid wls1}" != "off/any"}  ${wireless_link_qual_perc wls1}%${endif}   ${cpu cpu0}%   ${mem}   ${downspeedf wls1}K   ${upspeedf wls1}K   ${mpd_vol}%   ${TIME %a %d %b  %H:%M} 
+  ${if_empty ${battery_time BAT0}}${battery BAT0}${else}${battery BAT0}  ${battery_time BAT0}${endif}   ${wireless_essid wls1}${if_match "${wireless_essid wls1}" != "off/any"}  ${wireless_link_qual_perc wls1}%${endif}   ${cpu cpu0}%   ${mem}   ${downspeedf wls1}K   ${upspeedf wls1}K   ${mpd_vol}%   ${TIME %a %d %b  %H:%M} 

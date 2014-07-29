@@ -3,14 +3,14 @@
 #
 
 set default-bg "#151515"
-set default-fg "#c5c8c6"
+set default-fg "#e8e8d3"
 set font "Terminus normal 9"
 set inputbar-bg "#151515"
 #set inputbar-fg "#151515"
-set statusbar-bg "#202020"
-set statusbar-fg "#c5c8c6"
+set statusbar-bg "#1c1c1c"
+set statusbar-fg "#e8e8d3"
 set recolor-lightcolor "#151515"
-set recolor-darkcolor "#c5c8c6"
+set recolor-darkcolor "#e8e8d3"
 
 map ; focus_inputbar ":"
 map , set nohlsearch

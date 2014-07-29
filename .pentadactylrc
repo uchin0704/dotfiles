@@ -18,7 +18,7 @@ set hlfind
 " -----------------------------------------------------------------------------
 
 hi -a StatusLine font-weight: normal;
-hi -a StatusLineNormal color:#C5C8C6 !important; background:#202020 !important;
+hi -a StatusLineNormal color:#E8E8D3 !important; background:#1c1c1c !important;
 
 "}}}
 " Font {{{
@@ -62,22 +62,22 @@ map -builtin <F3> :styletoggle<Space>-name<Space>hybrid<CR>
 
 style -name hybrid http://*,https://*,file://*,about:blank <<EOM
   * {
-    color: #C5C8C6 !important;
+    color: #E8E8D3 !important;
     background: #151515 !important;
-    border-color: #202020 !important;
+    border-color: #1c1c1c !important;
   }
   a, a * {
     color: #81A2BE !important;
     text-decoration: none !important;
   }
   a:hover, a:hover * {
-    color: #f4bf75 !important;
+    color: #fad07a !important;
   }
   a:visited, a:visited * {
     color: #b294bb !important;
   }
   a:visited:hover, a:visited:hover * {
-    color: #d28445 !important;
+    color: #FFB964 !important;
   }
 EOM
 styledisable -name=hybrid
@@ -92,13 +92,13 @@ style -name minitabs chrome://* <<EOM
 }
 
 #TabsToolbar .tabbrowser-tabs {
-    background: #202020 !important;
+    background: #1c1c1c !important;
     min-height: 18px !important;
     padding-bottom: 2px;
 }
 
 #TabsToolbar .tabbrowser-tab {
-    background: #202020 !important;
+    background: #1c1c1c !important;
     border: none !important;
     color: #505050 !important;
     font: 9pt Terminus !important;
@@ -106,8 +106,8 @@ style -name minitabs chrome://* <<EOM
 }
 
 #TabsToolbar .tabbrowser-tab[selected] {
-    background: #202020 !important;
-    color: #F4BF75 !important;
+    background: #1c1c1c !important;
+    color: #fad07a !important;
 }
 
 #TabsToolbar .tabbrowser-tab:not([pinned]) {
@@ -121,8 +121,8 @@ style -name minitabs chrome://* <<EOM
 }
 
 #TabsToolbar .tabbrowser-tab:hover:not([selected]) {
-    background: #F4BF75 !important;
-    color: #202020 !important;
+    background: #fad07a !important;
+    color: #1c1c1c !important;
 
 }
 

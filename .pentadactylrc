@@ -18,7 +18,7 @@ set hlfind
 " -----------------------------------------------------------------------------
 
 hi -a StatusLine font-weight: normal;
-hi -a StatusLineNormal color:#E8E8D3 !important; background:#1c1c1c !important;
+hi -a StatusLineNormal color:#C5C8C6 !important; background:#282A2E !important;
 
 "}}}
 " Font {{{
@@ -62,22 +62,22 @@ map -builtin <F3> :styletoggle<Space>-name<Space>hybrid<CR>
 
 style -name hybrid http://*,https://*,file://*,about:blank <<EOM
   * {
-    color: #E8E8D3 !important;
-    background: #151515 !important;
-    border-color: #1c1c1c !important;
+    color: #C5C8C6 !important;
+    background: #1D1F21 !important;
+    border-color: #282A2E !important;
   }
   a, a * {
     color: #81A2BE !important;
     text-decoration: none !important;
   }
   a:hover, a:hover * {
-    color: #fad07a !important;
+    color: #F0C674 !important;
   }
   a:visited, a:visited * {
     color: #b294bb !important;
   }
   a:visited:hover, a:visited:hover * {
-    color: #FFB964 !important;
+    color: #de935f !important;
   }
 EOM
 styledisable -name=hybrid
@@ -85,6 +85,7 @@ styledisable -name=hybrid
 "}}}
 " Style: Minimalistic Tabs {{{
 " -----------------------------------------------------------------------------
+" Based on http://userstyles.org/styles/99560/square-tab-for-firefox-australis
 
 style -name minitabs chrome://* <<EOM
 #TabsToolbar toolbarbutton {
@@ -92,22 +93,22 @@ style -name minitabs chrome://* <<EOM
 }
 
 #TabsToolbar .tabbrowser-tabs {
-    background: #1c1c1c !important;
+    background: #282A2E !important;
     min-height: 18px !important;
     padding-bottom: 2px;
 }
 
 #TabsToolbar .tabbrowser-tab {
-    background: #1c1c1c !important;
+    background: #282A2E !important;
     border: none !important;
-    color: #505050 !important;
+    color: #707880 !important;
     font: 9pt Terminus !important;
     margin: 0 !important;
 }
 
 #TabsToolbar .tabbrowser-tab[selected] {
-    background: #1c1c1c !important;
-    color: #fad07a !important;
+    background: #282A2E !important;
+    color: #F0C674 !important;
 }
 
 #TabsToolbar .tabbrowser-tab:not([pinned]) {
@@ -121,8 +122,8 @@ style -name minitabs chrome://* <<EOM
 }
 
 #TabsToolbar .tabbrowser-tab:hover:not([selected]) {
-    background: #fad07a !important;
-    color: #1c1c1c !important;
+    background: #F0C674 !important;
+    color: #282A2E !important;
 
 }
 
@@ -145,6 +146,7 @@ style -name minitabs chrome://* <<EOM
 #TabsToolbar .tabbrowser-tab:before {
     display: none !important;
 }
+
 EOM
 
 "}}}

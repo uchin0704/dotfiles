@@ -15,7 +15,6 @@ set runtimepath+=/home/w0ng/.vim/bundle/neobundle.vim
 call neobundle#begin(expand('/home/w0ng/.vim/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 " Plugins from https://github.com/*
-NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'Shougo/neocomplete'
 NeoBundle 'Shougo/vimproc.vim', {
             \ 'build' : {
@@ -173,7 +172,6 @@ nnoremap <leader>g :<C-u>Unite grep:.<CR>
 "}}}
 " Plugin Settings {{{
 " -----------------------------------------------------------------------------
-let delimitMate_expand_cr = 1
 let g:airline_inactive_collapse = 0
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'hybridline'
@@ -211,12 +209,13 @@ let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
 inoremap <expr><C-g>     neocomplete#undo_completion()
 inoremap <expr><C-l>     neocomplete#complete_common_string()
-imap <expr><CR> pumvisible() ? neocomplete#smart_close_popup() . "\<CR>"
-            \ : "<Plug>delimitMateCR"
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplete#close_popup() . "\<CR>"
+endfunction
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr> <BS>  pumvisible() ? neocomplete#smart_close_popup()."\<BS>"
-            \ : delimitMate#BS()
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><C-y>  neocomplete#close_popup()
 inoremap <expr><C-e>  neocomplete#cancel_popup()
 

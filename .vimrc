@@ -73,10 +73,10 @@ set foldnestmax=1         " limit max folds for indent and syntax methods
 " Tabs
 set autoindent            " copy indent from previous line
 set expandtab             " replace tabs with spaces
-set shiftwidth=2          " spaces for autoindenting
+set shiftwidth=4          " spaces for autoindenting
 set smarttab              " <BS> removes shiftwidth worth of spaces
-set softtabstop=2         " spaces for editing, e.g. <Tab> or <BS>
-set tabstop=2             " spaces for <Tab>
+set softtabstop=4         " spaces for editing, e.g. <Tab> or <BS>
+set tabstop=4             " spaces for <Tab>
 
 " Searches
 set hlsearch              " highlight search results
@@ -239,7 +239,7 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " Indent rules
 autocmd FileType c setlocal noet ts=8 sw=8 sts=8
-autocmd FileType cpp,java,markdown,php,python setlocal ts=4 sw=4 sts=4
+autocmd FileType bash,vim,zsh setlocal ts=2 sw=2 sts=2
 autocmd FileType markdown setlocal tw=79
 
 " Folding rules

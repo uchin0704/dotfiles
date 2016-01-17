@@ -2,7 +2,6 @@
 #
 # References:
 #   https://github.com/fideloper/Vaprobash
-#   https://serversforhackers.com/ssl-certs/
 #   https://www.linode.com/docs/websites/apache/running-fastcgi-php-fpm-on-debian-7-with-apache
 #   https://github.com/w0ng/dotfiles/blob/master/.vimrc
 
@@ -29,6 +28,13 @@ echo "non-free repository added."
 
 echo "--- Installing base packages ---"
 
+# Set parameters for unattended grub-pc upgrade
+export UCF_FORCE_CONFFNEW=YES
+debconf-set-selections <<< 'grub-pc grub-pc/timeout string 0'
+sdaid="/dev/$(udevadm info --name=/dev/sda --query=symlink)"
+debconf-set-selections <<< "grub-pc grub-pc/install_devices multiselect $sdaid"
+unset sdaid
+
 apt-get update
 apt-get upgrade -y
 apt-get install -y \
@@ -36,43 +42,6 @@ apt-get install -y \
     git-core \
     python-software-properties \
     unzip
-
-# =============================================================================
-
-echo "--- Creating a wildcard self-signed SSL Certificate ---"
-
-SSL_DIR="/etc/ssl/xip.io"
-DOMAIN="*.xip.io"
-PASSPHRASE=""
-SUBJ="
-C=AU
-ST=New South Wales
-O=
-localityName=Sydney
-commonName=$DOMAIN
-organizationalUnitName=
-emailAddress=
-"
-
-[[ ! -d "$SSL_DIR" ]] && mkdir -p "$SSL_DIR"
-
-# Generate private key, csr and certificate
-openssl genrsa \
-    -out "$SSL_DIR/xip.io.key" 2048
-
-openssl req \
-    -new \
-    -subj "$(echo -n "$SUBJ" | tr "\n" "/")" \
-    -key "$SSL_DIR/xip.io.key" \
-    -out "$SSL_DIR/xip.io.csr" \
-    -passin pass:$PASSPHRASE
-
-openssl x509 \
-    -req \
-    -days 365 \
-    -in "$SSL_DIR/xip.io.csr" \
-    -signkey "$SSL_DIR/xip.io.key" \
-    -out "$SSL_DIR/xip.io.crt"
 
 # =============================================================================
 
@@ -99,8 +68,7 @@ apt-get install -y \
     php5-ldap \
     php5-mcrypt \
     php5-memcached \
-    php5-mysql \
-    php5-xdebug
+    php5-mysql
 
 # =============================================================================
 
@@ -120,23 +88,6 @@ sed -i "s/^;\?date.timezone =.*/date.timezone = \"Australia\/Sydney\"/" \
     /etc/php5/fpm/php.ini
 sed -i "s/^;\?date.timezone =.*/date.timezone = \"Australia\/Sydney\"/" \
     /etc/php5/cli/php.ini
-
-# Xdebug: enable extension, do not limit output, enable triggered profiler
-[[ ! -d "/vagrant/tmp" ]] && mkdir -p "/vagrant/tmp"
-cat > "$(find /etc/php5 -name xdebug.ini)" <<EOF
-zend_extension=$(find /usr/lib/php5 -name xdebug.so)
-xdebug.remote_enable = 1
-xdebug.remote_connect_back = 1
-xdebug.remote_port = 9000
-xdebug.scream = 0
-xdebug.cli_color = 1
-xdebug.show_local_vars = 1
-xdebug.var_display_max_depth = 5
-xdebug.var_display_max_children = 256
-xdebug.var_display_max_data = 1024
-xdebug.profiler_enable_trigger = 1
-xdebug.profiler_output_dir = /vagrant/tmp
-EOF
 
 service php5-fpm restart
 
@@ -166,10 +117,7 @@ echo "MySQL configured."
 echo "--- Configuring Apache ---"
 
 SERVER_NAME="$1"
-SERVER_ALIAS="$2"
-DOC_ROOT="$3"
-CERT_PATH="/etc/ssl/xip.io"
-CERT_NAME="xip.io"
+DOC_ROOT="$2"
 
 [[ ! -d "$DOC_ROOT" ]] && mkdir -p "$DOC_ROOT"
 
@@ -179,7 +127,6 @@ CERT_NAME="xip.io"
 <VirtualHost *:80>
     ServerAdmin webmaster@localhost
     ServerName ${SERVER_NAME}
-    ServerAlias ${SERVER_ALIAS}
     DocumentRoot ${DOC_ROOT}
     <Directory ${DOC_ROOT}>
         Options +Indexes +FollowSymLinks +MultiViews
@@ -189,35 +136,6 @@ CERT_NAME="xip.io"
     ErrorLog \${APACHE_LOG_DIR}/${SERVER_NAME}-error.log
     LogLevel warn
     CustomLog \${APACHE_LOG_DIR}/${SERVER_NAME}-access.log combined
-</VirtualHost>
-EOF
-
-# Create an SSL vhost using the xip.io cert created earlier
-[[ -d "${CERT_PATH}" ]] && \
-    cat <<EOF >> /etc/apache2/sites-available/${SERVER_NAME}.conf
-<VirtualHost *:443>
-    ServerAdmin webmaster@localhost
-    ServerName ${SERVER_NAME}
-    ServerAlias ${SERVER_ALIAS}
-    DocumentRoot ${DOC_ROOT}
-    <Directory ${DOC_ROOT}>
-        Options +Indexes +FollowSymLinks +MultiViews
-        AllowOverride All
-        Require all granted
-    </Directory>
-    ErrorLog \${APACHE_LOG_DIR}/${SERVER_NAME}-error.log
-    LogLevel warn
-    CustomLog \${APACHE_LOG_DIR}/${SERVER_NAME}-access.log combined
-    SSLEngine on
-    SSLCertificateFile ${CERT_PATH}/${CERT_NAME}.crt
-    SSLCertificateKeyFile ${CERT_PATH}/${CERT_NAME}.key
-    <FilesMatch "\.(cgi|shtml|phtml|php)$">
-        SSLOptions +StdEnvVars
-    </FilesMatch>
-    BrowserMatch "MSIE [2-6]" \\
-        nokeepalive ssl-unclean-shutdown \\
-        downgrade-1.0 force-response-1.0
-    BrowserMatch "MSIE [17-9]" ssl-unclean-shutdown
 </VirtualHost>
 EOF
 
@@ -239,9 +157,9 @@ EOF
 echo "ServerName localhost" >> /etc/apache2/apache2.conf
 cd /etc/apache2/sites-available/ && a2ensite "${SERVER_NAME}".conf
 a2dissite 000-default
-a2enmod rewrite actions ssl
+a2enmod rewrite actions
 
-service apache2 restart
+systemctl restart apache2
 
 echo "Apache configured."
 
